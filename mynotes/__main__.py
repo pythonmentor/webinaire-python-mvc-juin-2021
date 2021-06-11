@@ -1,13 +1,9 @@
-class Application:
-    """Représente l'application elle-même et permet de la démarrer."""
-
-    def start(self):
-        print("Hello, nous somme là")
+from .controllers import ApplicationController
 
 
 def main():
     """Point d'entrée principal de l'application."""
-    app = Application()
+    app = ApplicationController()
     app.start()
 
 
