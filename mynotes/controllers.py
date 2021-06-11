@@ -1,4 +1,4 @@
-from .views import home, note_creation, notebook_creation, end
+from . import views
 
 
 class ApplicationController:
@@ -18,10 +18,12 @@ class ApplicationController:
 class HomeController:
     """Contrôleur responsable de gérer le menu d'accueil."""
 
-    def run(self):
+    def __init__(self):
+        self.view = views.HomeView()
 
-        home.render()
-        next_action = home.get_user_choice()
+    def run(self):
+        self.view.render()
+        next_action = self.view.get_user_choice()
         if next_action == "1":
             return NoteCreationController()
         elif next_action == "2":
@@ -29,7 +31,7 @@ class HomeController:
         elif next_action == "3":
             return EndController()
         else:
-            home.notify_invalid_choice()
+            self.view.notify_invalid_choice()
             return HomeController()
 
 
@@ -38,15 +40,18 @@ class NoteCreationController:
     note.
     """
 
+    def __init__(self):
+        self.view = views.NoteCreationView()
+
     def run(self):
-        note_creation.render()
-        next_action = note_creation.get_user_choice()
+        self.view.render()
+        next_action = self.view.get_user_choice()
         if next_action == "1":
             return HomeController()
         elif next_action == "2":
             return EndController()
         else:
-            note_creation.notify_invalid_choice()
+            self.view.notify_invalid_choice()
             return NoteCreationController()
 
 
@@ -55,9 +60,12 @@ class NotebookCreationController:
     notebook.
     """
 
+    def __init__(self):
+        self.view = views.NotebookCreationView()
+
     def run(self):
-        notebook_creation.render()
-        next_action = notebook_creation.get_user_choice()
+        self.view.render()
+        next_action = self.view.get_user_choice()
         if next_action == "2":
             return HomeController()
         elif next_action == "1":
@@ -65,20 +73,23 @@ class NotebookCreationController:
         elif next_action == "3":
             return EndController()
         else:
-            notebook_creation.notify_invalid_choice()
+            self.view.notify_invalid_choice()
             return NotebookCreationController()
 
 
 class EndController:
     """Contrôleur responsable de gérer la fin du programme."""
 
+    def __init__(self):
+        self.view = views.EndView()
+
     def run(self):
-        end.render()
-        choice = end.get_user_choice()
+        self.view.render()
+        choice = self.view.get_user_choice()
         if choice == "oui":
             return
         elif choice == "non":
             return HomeController()
         else:
-            end.notify_invalid_choice()
+            self.view.notify_invalid_choice()
             return EndController()
